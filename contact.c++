@@ -27,7 +27,7 @@ public:
         cout << "Enter address: ";
         cin >> address;
 
-        cout << "Enter eamil: ";
+        cout << "Enter email: ";
         cin >> email;
     }
     // function to show the data
@@ -57,6 +57,41 @@ public:
 
         cout << "Contact has been successfully created...";
         f1.close();
-        
+    }
+
+    void readFromFile() {
+        ifstream f2;
+        f2.open("CMS.dat", ios::binary);
+
+        cout << "\n*************************************\n";
+        cout << "LIST OF CONTACT";
+        cout << "\n*************************************\n";
+
+        while(f2.eof()) {
+            if(f2.read(reinterpret_cast<char*>(this), sizeof(*this))) {
+                showContact();
+                cout << "\n******************************************\n";
+            }
+        }
+        f2.close();
+    }
+
+    void searchOnFile() {
+        ifstream f3;
+        long long phone;
+        cout << "Enter phone number: ";
+        cin >> phone;
+        f3.open("CMS.dat", ios::binary);
+
+        while(f3.eof()) {
+            if(f3.read(reinterpret_cast<char*>(this), sizeof(*this))) {
+                if(phone == phNo) {
+                    showContact();
+                    return;
+                }
+            }
+        }
+        cout << "\n\n No record found";
+        f3.close();
     }
 };
